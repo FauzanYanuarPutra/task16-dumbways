@@ -1,0 +1,35 @@
+<%- include('../partials/header.ejs') %>
+
+  <%- include('../partials/navbar.ejs') %>
+
+<div class="md:w-[500px] md:mx-auto  mx-5 my-8 p-4  rounded-lg">
+  <h1 class="mb-10 font-[600] text-2xl text-center">REGISTER YOUR ACCOUNT</h1>
+  <form action="/register" method="post">
+    <div class="mb-4">
+      <label for="input-name" class="block text-sm font-medium ">Name</label>
+      <input type="text" name="name" id="input-name" class="mt-1 p-2 w-full border rounded-lg shadow-md" required />
+    </div>
+
+    <div class="mb-4">
+      <label for="input-email" class="block text-sm font-medium ">Email</label>
+      <input type="email" name="email" id="input-email" class="mt-1 p-2 w-full border rounded-lg shadow-md" required />
+      <p class="text-red-800 text-sm"><%= errorEmail ? errorEmail : '' %></p>
+    </div>
+
+    <div class="mb-4">
+      <label for="input-password" class="block text-sm font-medium ">Password</label>
+      <input type="password" name="password" id="input-password" class="mt-1 p-2 w-full border rounded-lg shadow-md" />
+    </div>
+
+    <div class="flex justify-end">
+      <button type="submit" class="px-4 py-2 bg-[orangered] text-white font-semibold rounded-lg">
+        Submit
+      </button>
+    </div>
+  </form>
+</div>
+
+
+
+
+<%- include('../partials/footer.ejs') %>

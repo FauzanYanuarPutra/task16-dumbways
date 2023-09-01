@@ -1,0 +1,353 @@
+<%- include('partials/header.ejs') %>
+
+  <%- include('partials/navbar.ejs') %>
+
+  <div class="xl:max-w-[1200px] max-w-[90%]  mx-auto mb-[200px]">
+    <div class=" md:flex xl:w-[100%] gap-10 justify-between items-center  my-10  py-8 px-10 xl:px-16 xl:py-14 bg-[white] rounded-xl shadow-xl">
+      <div>
+        <h1 class="text-xl font-bold mb-2">Hi Welcome to my hut</h1>
+        <p class="line-clamp-[8] text-sm md:my-4">
+          Halo, saya adalah seorang pengembang web full stack yang memiliki pengalaman luas dalam berbagai teknologi dan
+          alat pengembangan web modern. Dengan keahlian mendalam dalam HTML, CSS, dan JavaScript, saya memiliki kemampuan
+          untuk merancang dan membangun tampilan web yang menarik dan responsif, menghadirkan pengalaman pengguna yang
+          luar biasa.
+          Saya juga memiliki keahlian dalam kerangka kerja dan pustaka seperti React JS dan Vue Js, yang memungkinkan saya
+          untuk menciptakan antarmuka pengguna yang dinamis dan interaktif.
+        </p>
+        <div class="my-5 flex items-center flex-wrap gap-4 md:my-10">
+          <div class="px-5 py-1 bg-black text-white rounded-3xl font-medium">Contact</div>
+          <div class="flex gap-2 items-center">
+            Download CV
+            <img src="/svg/download.svg" alt="SVG Image" >
+          </div>
+        </div>
+        <div class=" my-5 flex items-center md:justify-start gap-5 justify-center md:mx-0">
+          <a href="https://www.linkedin.com/in/muhammad-fauzan-046246253/">
+            <img src="/svg/linkind.svg" alt="SVG Image" width="40px">
+          </a>
+          <a href="https://www.instagram.com/fauzanyanuarputra/">
+            <img src="/svg/instagram.svg" alt="SVG Image" width="38px">
+          </a>
+          <a href="https://muhammadfauzan.netlify.app/">
+            <img src="/svg/facebook.svg" alt="SVG Image" width="38px">
+          </a>
+          <a href="https://muhammadfauzan.netlify.app/">
+            <img src="/svg/twitter.svg" alt="SVG Image" width="40px">
+          </a>
+        </div>
+      </div>
+      <div class="flex justify-center md:justify-end md:w-[40%] ">
+        <div class="w-[80%]  sm:w-[50%] md:w-[300px] lg:w-[350px] bg-white shadow-xl rounded-xl">
+          <img src="/images/me.jpeg" alt="" class="w-full rounded-t-xl ">
+          <div class="text-center my-6">
+            <h1 class="font-bold max-w-[90%] mx-auto line-clamp-1"><%= userName ? userName : 'Muhammad Fauzan' %></h1>
+            <p>Fullstack Developer</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <h1 class="text-center text-2xl pt-10 font-[600]">MY Project</h1>
+      <div class="flex justify-end my-6">
+      <% if(isLogin) { %>
+          <button
+          onclick="showAddProject()"
+          class="flex items-center justify-end bg-[orangered] hover:opacity-50 text-white px-10 py-2 rounded-full font-semibold"
+        >
+          <img src="/svg/create.svg" alt="" class="w-6 mr-2">
+          ADD PROJECT
+        </button>
+      <% } %>
+    </div>
+    <p class="text-center w-full ">
+      <%= dataProject ? 'No projects available yet' : '' %>
+    </p>
+
+    <div class="content-responsive w-full">
+
+      <% dataProject.forEach(project => { %>
+        <div onclick="detailProject('<%= project.id %>')" class="cursor-pointer bg-white shadow-xl text-sm rounded-lg">
+          <div class="relative overflow-hidden">
+            <img src="<%= project.image %>" alt="" class="w-full h-[200px] object-cover rounded-t-lg">
+            <p class="absolute bottom-1 left-1 bg-[orangered] px-2 py-1 text-white max-w-[70%] line-clamp-1">
+              Author: <%= project.author_name %>
+            </p>
+            
+          </div>
+          <div class="m-5">
+            <h1 class="font-[600] break-words line-clamp-1"><%= project.name %></h1>
+            <p class="text-gray-600 text-[12px]">durasi: <%= project.duration %></p>
+            <p class="my-4 line-clamp-2 w-full break-words">
+              <%= project.description %>
+            </p>
+
+            <div class="flex my-2 gap-3 items-center">
+              <% project.technologies.forEach(tech => { %>
+                <img src="/svg/<%= tech %>.svg" alt="" class="w-[20px]">
+              <% }) %>
+            </div>
+            <% if(isLogin) { %>
+            <div class="grid grid-cols-2 gap-2 mt-6" onclick="event.stopPropagation()">
+              <div class="cursor-pointer p-2 text-center rounded-lg bg-black text-white hover:bg-white hover:text-black border-[1.5px] hover:border-black " onclick="editProject('<%= JSON.stringify(project) %>')">EDIT</div>
+              
+              <button class="p-2 text-center rounded-lg bg-red-600 text-white w-full h-full hover:bg-red-400" onclick="showDeleteConfirmation('<%= project.id %>')">DELETE</button>
+            </div>
+            <% } %>
+          </div>
+        </div>
+        <div id="deleteConfirmation" class="fixed top-0 left-0 right-0 bottom-0 flex items-center justify-center bg-black bg-opacity-70 hidden max-w-full ">
+          <div class="bg-white max-w-[95%] rounded-lg p-6 text-center">
+            <p class="text-lg font-semibold mb-3">Are you sure you want to delete this project?</p>
+            <div class="flex justify-center gap-3">
+              <form action="/projects/<%= project.id %>?_method=DELETE" method="post" >
+                <button class="px-4 py-2 text-center rounded-lg bg-red-600 hover:bg-red-400 text-white w-full h-full">Yes</button>
+              </form>
+              <button class=" border-[1.5px] border-red-600  text-red-600 hover:bg-slate-200  px-4 py-2 rounded-lg" onclick="showDeleteConfirmation()">No</button>
+            </div>
+          </div>
+        </div>
+      <% }) %>
+    </div>
+  </div>
+
+
+
+  <div onclick="showAddProject()" class="form-project hidden fixed top-0 bottom-0 right-0 left-0 flex justify-center items-center">
+
+    <div onclick="event.stopPropagation()" class="bg-white m-3 p-6 w-[100%] md:w-[700px] rounded-lg shadow-md overflow-y-scroll max-h-[90vh] relative">
+      <div class="w-full sticky flex justify-end right-0 top-0 m-0 p-0">
+        <img onclick="showAddProject()" src="/svg/close.svg" alt="" width="30px" class="sticky fixed right-0 top-0 cursor-pointer hover:opacity-50 ">
+      </div>
+      <form onsubmit="addProject(event)" id="form-project" class="space-y-4 w-[88%] mx-auto" method="post" action="/projects" enctype="multipart/form-data">
+        <input type="hidden" id="project-id" name="projectId" value="">
+        <input type="hidden"  id="project-id" name="author" value="<%= userId ? userId : '' %>">
+
+        <div class="mb-4">
+          <label for="project-name" class="block text-sm font-medium judul">Project Name</label>
+          <input type="text" id="project-name" name="name"  class="mt-1 p-2 w-full border rounded focus:outline-none border-[1.5] border-gray-300 focus:border-[#ff4500]" required>
+        </div>
+        <div class="flex gap-4">
+          <div class="w-1/2">
+            <label for="start-date" class="block text-sm font-medium judul">Start Date</label>
+            <input type="date" id="start-date" name="start_date"  class="mt-1 p-2 w-full border rounded focus:outline-none border-[1.5] border-gray-300 focus:border-[#ff4500]" >
+          </div>
+          <div class="w-1/2">
+            <label for="end-date" class="block text-sm font-medium judul">End Date</label>
+            <input type="date" id="end-date" name="end_date"  class="mt-1 p-2 w-full border rounded focus:outline-none border-[1.5] border-gray-300 focus:border-[#ff4500]" >
+          </div>
+        </div>
+        <span class="date-validate-null hidden text-red-500 mb-2">Start date & end date cannot be empty</span>
+        <span class="date-validate hidden text-red-500 mb-2">End date must be after start date</span>
+        <div class="mb-4">
+          <label for="description" class="block text-sm font-medium judul">Description</label>
+          <textarea type="text" id="description" name="description" style="height: 100px;"  class="mt-1 p-2 w-full border rounded focus:outline-none border-[1.5] border-gray-300 focus:border-[#ff4500]"></textarea>
+          <span class="deskripsi-error-validate hidden text-red-500 mb-2">Description must be more than 150 characters</span>
+        </div>
+        
+        <div class="mb-10">
+          <label for="checkbox" class="block text-sm font-medium judul mt-4">Technologies</label>
+          <div class="grid grid-cols-2 gap-3">
+            <% availableTechnologies.forEach(tech => { %>
+              <div class="flex items-center gap-2">
+                <input type="checkbox" name="technologies" id="<%= tech.value %>" value="<%= tech.value %>">
+                <img src="/svg/<%= tech.value %>.svg" alt="" width="20px">
+                <label for="<%= tech.value %>"><%= tech.label %></label>
+              </div>
+            <% }) %>
+          </div>
+        <span class="tech-error-validate hidden text-red-500 mb-2">Technologies cannot be null</span>
+        </div>
+        <div class="mb-10">
+          <label for="image" class="block text-sm font-medium judul mt-4">Select Image</label>
+          <div class="relative flex items-center h-10 ">
+            <label class="h-full flex items-center  justify-center custom-file-input w-24 px-2 py-1 bg-gray-300 rounded-l cursor-pointer text-sm whitespace-nowrap py-2">
+              Choose File
+              <input type="file" id="image" name="image"  class="bg-red-300 opacity-0" accept="image/*">
+            </label>
+            <input type="text" name="imageDescription" id="image-description" class="z-[100] w-full  rounded-r p-1 focus:outline-none  p-2 border-[1.5px] border-gray-300">
+            <div class="absolute right-0 bottom-0 top-0 h-full p-1 flex justify-center items-center mr-2">
+              <img src="/svg/link.svg" alt="" class="w-4 h-4 z-[101]">
+            </div>
+          </div>
+          <img id="image-preview"  src="" alt="" class="w-full h-[300px] my-3 object-cover  hidden">
+        </div>
+
+        <div class="flex justify-end">
+          <button id="submitButton" type="submit" class="px-4 py-2 bg-[orangered] hover:opacity-50 text-white rounded hover:bg-[#ff4500] transition duration-300">Submit</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+<script>
+function detailProject(id) {
+  window.location.href = `/projects/${id}`;
+} 
+
+
+function showDeleteConfirmation(projectId) {
+  const deleteConfirmation = document.getElementById('deleteConfirmation');
+  deleteConfirmation.classList.toggle('hidden');
+}
+
+  
+function validateForm() {
+  const start_date = document.getElementById("start-date").value;
+  const end_date = document.getElementById("end-date").value;
+  const description = document.getElementById("description").value;
+  const imageInput = document.getElementById("image");
+  const selectedTechnologies = document.querySelectorAll('input[type="checkbox"][name="technologies"]:checked');
+
+  const start_dateInput = new Date(start_date);
+  const end_dateInput = new Date(end_date);
+
+  let valid = true;
+
+  if (description.length < 150) {
+    valid = false;
+    document.querySelector(".deskripsi-error-validate").classList.remove("hidden");
+    document.querySelector(".deskripsi-error-validate").scrollIntoView({ behavior: "smooth" });
+  } else {
+    document.querySelector(".deskripsi-error-validate").classList.add("hidden");
+  }
+
+
+  if (selectedTechnologies.length === 0) {
+    valid = false;
+    document.querySelector(".tech-error-validate").classList.remove("hidden");
+    document.querySelector(".tech-error-validate").scrollIntoView({ behavior: "smooth" });
+  } else {
+    document.querySelector(".tech-error-validate").classList.add("hidden");
+  }
+
+  if (!start_date || !end_date) {
+    valid = false;
+    document.querySelector(".date-validate-null").classList.remove("hidden");
+    document.querySelector(".date-validate").classList.add("hidden");
+    document.querySelector(".date-validate-null").scrollIntoView({ behavior: "smooth" });
+  } else if (end_dateInput <= start_dateInput) {
+    valid = false;
+    document.querySelector(".date-validate").classList.remove("hidden");
+    document.querySelector(".date-validate-null").classList.add("hidden");
+    document.querySelector(".date-validate").scrollIntoView({ behavior: "smooth" });
+  } else {
+    document.querySelector(".date-validate-null").classList.add("hidden");
+    document.querySelector(".date-validate").classList.add("hidden");
+  }
+
+  return valid;
+}
+
+
+
+const imageInput = document.getElementById("image");
+const imagePreview = document.getElementById("image-preview");
+
+
+function editProject(itemString) {
+  try {
+    const item = JSON.parse(itemString);
+
+    const formElements = {
+      "project-name": item.name,
+      "start-date": item.start_date,
+      "end-date": item.end_date,
+      "description": item.description,
+    };
+
+    for (const elementId in formElements) {
+      document.getElementById(elementId).value = formElements[elementId];
+    }
+
+    document.getElementById("start-date").value = item.start_date.substring(0, 10);
+    document.getElementById("end-date").value = item.end_date.substring(0, 10);
+
+    const checkboxes = document.querySelectorAll('input[type="checkbox"][name="technologies"]');
+    checkboxes.forEach(checkbox => {
+      checkbox.checked = item.technologies.includes(checkbox.value);
+    });
+
+    document.getElementById("project-id").value = item.id;
+
+    editActive = true;
+    updateSubmitButtonText(item.id);
+
+    const body = document.querySelector("body");
+    const data = document.querySelector(".form-project");
+    data.classList.toggle("hidden");
+    body.classList.toggle("overflow-y-hidden");
+
+    if (item.image) {
+      imagePreview.src = item.image;
+      imagePreview.classList.remove("hidden");
+    } else {
+      imagePreview.classList.add("hidden");
+    }
+  } catch (error) {
+    console.error("Error parsing JSON:", error);
+  }
+}
+
+
+
+
+function showAddProject() {
+  
+  document.getElementById("project-id").value = "";
+  document.getElementById("project-name").value = "";
+  document.getElementById("start-date").value = "";
+  document.getElementById("end-date").value = "";
+  document.getElementById("description").value = "";
+  imagePreview.src = "";
+  imagePreview.classList.add("hidden");
+
+  const checkboxes = document.querySelectorAll('input[type="checkbox"][name="technologies"]');
+  checkboxes.forEach(checkbox => {
+    checkbox.checked = false;
+  });
+
+  editActive = false;
+
+  const body = document.querySelector("body");
+  const data = document.querySelector(".form-project");
+  data.classList.toggle("hidden");
+  body.classList.toggle("overflow-y-hidden");
+  updateSubmitButtonText(null)
+} 
+
+function updateSubmitButtonText() {
+  const submitButton = document.getElementById("submitButton");
+  const form = document.getElementById("form-project");
+  const projectId = document.getElementById("project-id").value;
+
+  if (editActive && projectId) {
+    submitButton.textContent = "Edit";
+    form.action = `/projects/${projectId}?_method=PATCH`;
+  } else {
+    submitButton.textContent = "Create";
+    form.action = "/projects";
+  }
+}
+
+
+imageInput.addEventListener("change", function (event) {
+  const selectedImage = event.target.files[0];
+  if (selectedImage) {
+    const imageUrl = URL.createObjectURL(selectedImage);
+    imagePreview.src = imageUrl;
+    imagePreview.classList.remove("hidden");
+  }
+});
+
+function addProject(event) {
+  if (!validateForm()) {
+    event.preventDefault();
+  }
+}
+</script>
+
+
+<%- include('partials/footer.ejs') %>
+
+
+

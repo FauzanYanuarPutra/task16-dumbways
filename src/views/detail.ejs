@@ -1,0 +1,51 @@
+<%- include('partials/header.ejs') %>
+
+  <%- include('partials/navbar.ejs') %>
+
+  <div class="xl:max-w-[1200px] max-w-[90%]  mx-auto mb-[200px]">
+    <h1 class="text-center text-3xl my-10 font-bold"><%= dataProject.name %></h1>
+    <div class="md:flex gap-4 mb-6">
+      <div class="w-full md:w-[60%]  h-[350px]">
+        <img src="<%= dataProject.image %>" alt="" class="w-full h-full object-cover">
+      </div>
+      <div class="my-3 md:my-0 md:mb-4">
+        <div>
+          <h1 class=" font-medium mb-2">Duration</h1>
+          <div class="text-sm  grid grid-cols-1  gap-4">
+            <div class="flex items-center gap-2">
+              <img src="/svg/date.svg" alt="" width="20">
+              <p><%= dataProject.start_date %> - 11 Feb 2021</p>
+            </div>
+            <div class="flex items-center gap-2">
+              <img src="/svg/clock.svg" alt="" width="20">
+              <p><%= dataProject.duration %></p>
+            </div>
+          </div>
+        </div>
+        <div  class="my-3 md:my-0 md:my-4">
+          <h1 class="mb-2 font-medium">Technologies</h1>
+          <div class="grid grid-cols-2 gap-4">
+            <% dataProject.technologies.map(item => { %>
+              <div class="flex items-center gap-2">
+                <img src="/svg/<%= item %>.svg" alt="" width="18">
+                <p class="text-sm "><%= item %></p>
+              </div>
+            <% }) %>
+          </div>
+        </div>
+        <div>
+          <h1 class=" font-medium ">Author</h1>
+          <p class="text-sm text-gray-800">- <%= dataProject.author_name %></p>
+        </div>
+      </div>
+    </div>
+    <div>
+      <h1 class="mb-2 font-medium">Description</h1>
+      <p class="text-sm break-words w-full"><%= dataProject.description %></p>
+    </div>
+  </div>
+
+<%- include('partials/footer.ejs') %>
+
+
+

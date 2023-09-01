@@ -1,0 +1,117 @@
+<div id="navbar" class="font-[500]">
+  <nav  class="sticky top-0 bg-white flex justify-center items-center ">
+  <div class="flex w-[100%] px-4 sm:px-6 max-w-[1000px] xl:max-w-[1200px]  py-7 justify-between">
+    <div class="flex items-center gap-4">
+      <div><img src="/images/logo.png" alt="" width="40" class="mr-2"></div>
+      <a href="/" class="hidden sm:block link">Home</a>
+      <a href="/testi" class="hidden sm:block link">Testimonials</a>
+    </div>
+
+    <div class="flex items-center gap-4">
+      <% if (isLogin) { %>
+        <div class="relative inline-block text-left">
+          <div>
+            <button type="button"  onclick="dropDown()" id="dropdown-btn" class="flex items-center justify-center">
+              <p class="max-w-[100px] line-clamp-1 "><%= userName %></p> <img src="/svg/dropdown.svg" alt="" width="20px">
+            </button>
+          </div>
+          <div id="dropdown-content" class="hidden origin-top-right absolute right-0 mt-2 w-40 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5">
+            <div class="py-1" role="menu" aria-orientation="vertical" aria-labelledby="options-menu">
+              <a href="/logout" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem">Log Out</a>
+            </div>
+          </div>
+        </div>
+      <% } else { %>
+        <a href="/register" class="hidden sm:block link ">register</a>
+        <a href="/login" class="hidden sm:block link ">login</a>
+      <% } %>
+      <% if (isLogin) { %>
+      <% } %>
+      <a href="/contact" class="hidden sm:block bg-[orangered] text-white px-3 py-2 rounded-lg">Contact Me</a>
+      <div class="block sm:hidden cursor-pointer" onclick="openMobileMenu()">
+        <img src="/svg/menu.svg" alt="" width="30px">
+      </div>
+    </div>
+  </div>
+</nav>
+
+<div id="mobile-menu" class="hidden fixed top-0 bottom-0 right-0 left-0 bg-white flex flex-col justify-center items-center text-center gap-6">
+    <div onclick="openMobileMenu()"  style="position: absolute; top: 0; right: 0; margin: 30px; cursor: pointer">
+      <img src="/svg/close.svg" alt="" style="width: 30px;">
+    </div>  
+    <a href="/" class="link">Home</a>
+    <a href="/testi" class="link">Testimonials</a>
+    <a href="/contact" class="link">Contact</a>
+    <% if (isLogin) { %>
+      <a href="/logout" class="link">Log Out</a>
+    <% } else { %>
+      <a href="/register" class="link">register</a>
+      <a href="/login" class="link">login</a>
+    <% } %>
+
+
+</div>
+</div>
+
+
+<script>
+  const navbar = document.getElementById('navbar');
+  const navLinks = navbar.querySelectorAll('a.link');
+  const currentPath = window.location.pathname;
+
+  navLinks.forEach((link) => {
+    if (currentPath === link.getAttribute('href') || currentPath.startsWith(link.getAttribute('href') + '/')) {
+      link.classList.add('text-[orangered]');
+      link.classList.add('font-[500]');
+    }
+  });
+
+  const dropdownContent = document.getElementById("dropdown-content");
+
+  function dropDown(){
+    dropdownContent.classList.toggle("hidden");
+  }
+
+
+  const mobileMenu = document.querySelector('#mobile-menu');
+  const body = document.querySelector('body');
+
+  function openMobileMenu() {
+    body.classList.toggle('overflow-y-hidden');
+    mobileMenu.classList.toggle('hidden');
+
+    if (!mobileMenu.classList.contains('hidden')) {
+      mobileMenu.style.animation = 'slideInRight 0.3s forwards';
+    } else {
+      mobileMenu.style.animation = 'slideOutRight 0.3s forwards';
+
+    }
+  }
+
+</script>
+
+<style>
+  @keyframes slideInRight {
+    0% {
+      transform: translateX(100%);
+      opacity: 0;
+    }
+    100% {
+      transform: translateX(0);
+      opacity: 1;
+    }
+  }
+
+  @keyframes slideOutRight {
+    0% {
+      transform: translateX(0);
+      opacity: 1;
+    }
+    100% {
+      transform: translateX(100%);
+      opacity: 0;
+    }
+  }
+  
+</style>
+
