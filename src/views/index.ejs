@@ -60,7 +60,7 @@
       <% } %>
     </div>
     <p class="text-center w-full ">
-      <%= dataProject ? 'No projects available yet' : '' %>
+      <%= !dataProject.length ? 'No projects available yet' : '' %>
     </p>
 
     <div class="content-responsive w-full">
