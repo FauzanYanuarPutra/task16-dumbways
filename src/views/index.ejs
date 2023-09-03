@@ -3,6 +3,13 @@
   <%- include('partials/navbar.ejs') %>
 
   <div class="xl:max-w-[1200px] max-w-[90%]  mx-auto mb-[200px]">
+
+    <div class="success-login hidden fixed top-[100px] right-5">
+      <div class="px-5 py-2 bg-green-500 font-medium text-white rounded-3xl flex items-center gap-2">
+        <img src="/svg/done.svg" alt="" width="25"> <%= !succsessLogin ? "" : succsessLogin %>
+      </div>
+    </div>
+
     <div class=" md:flex xl:w-[100%] gap-10 justify-between items-center  my-10  py-8 px-10 xl:px-16 xl:py-14 bg-[white] rounded-xl shadow-xl">
       <div>
         <h1 class="text-xl font-bold mb-2">Hi Welcome to my hut</h1>
@@ -15,8 +22,8 @@
           untuk menciptakan antarmuka pengguna yang dinamis dan interaktif.
         </p>
         <div class="my-5 flex items-center flex-wrap gap-4 md:my-10">
-          <div class="px-5 py-1 bg-black text-white rounded-3xl font-medium">Contact</div>
-          <div class="flex gap-2 items-center">
+          <a href="/contact" class="px-5 py-1 bg-black text-white rounded-3xl font-medium">Contact</a>
+          <div onclick="downloadCV()" class="flex gap-2 items-center cursor-pointer">
             Download CV
             <img src="/svg/download.svg" alt="SVG Image" >
           </div>
@@ -46,6 +53,7 @@
         </div>
       </div>
     </div>
+
 
     <h1 class="text-center text-2xl pt-10 font-[600]">MY Project</h1>
       <div class="flex justify-end my-6">
@@ -180,16 +188,33 @@
   </div>
 
 <script>
-function detailProject(id) {
-  window.location.href = `/projects/${id}`;
-} 
+if ('<%= succsessLogin %>') {
+  const success = document.querySelector('.success-login');
+  success.classList.remove('hidden');
+  setTimeout(() => {
+    success.classList.add('hidden');
+  }, 3000)
+}
 
+function Login(props) {
+  console.log(props)
+  setInterval(() => {
+    sessionStorage.clear()
+  }, 2000)
+}
 
 function showDeleteConfirmation(projectId) {
   const deleteConfirmation = document.getElementById('deleteConfirmation');
   deleteConfirmation.classList.toggle('hidden');
 }
 
+function downloadCV() {
+  const cvUrl = '/cv/index.pdf';
+  const downloadLink = document.createElement('a');
+  downloadLink.href = cvUrl;
+  downloadLink.setAttribute('download', 'muhammad-fauzanyanuarp.pdf'); 
+  downloadLink.click();
+}
   
 function validateForm() {
   const start_date = document.getElementById("start-date").value;
@@ -238,11 +263,8 @@ function validateForm() {
   return valid;
 }
 
-
-
 const imageInput = document.getElementById("image");
 const imagePreview = document.getElementById("image-preview");
-
 
 function editProject(itemString) {
   try {
@@ -287,8 +309,6 @@ function editProject(itemString) {
     console.error("Error parsing JSON:", error);
   }
 }
-
-
 
 
 function showAddProject() {

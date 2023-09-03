@@ -131,9 +131,11 @@ function calculateAndFormatDuration(startDate, endDate) {
 async function home(req, res) {
   try {
     let query = `SELECT "Projects".*, "Users".id AS author_id, "Users".name AS author_name FROM "Projects" LEFT JOIN "Users" ON "Projects".author = "Users".id`;
+
     if (req.session.isLogin) {
       query += ` WHERE "Projects".author=${req.session.userId} ORDER BY id ASC;`;
     }
+
     const data = await sequelize.query(query, { type: QueryTypes.SELECT });
 
     const dataModif = data.map((prevData) => ({
@@ -276,7 +278,7 @@ async function deleteProject(req, res) {
 // end project
 
 function testi(req, res) {
-  res.render("views/testimonials", { dataTesti });
+  res.render("views/testimonials", { dataTesti, bintang: 0 });
 }
 
 function testiBintang(req, res) {

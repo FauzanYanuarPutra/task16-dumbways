@@ -43,4 +43,16 @@
 
 <%- include('partials/footer.ejs') %>
 
+<style>
+.active {
+  background-color: orangered;
+}
+</style>
+
+<script>
+const filterButtons = document.querySelectorAll('.filter-rating a');
+
+filterButtons['<%= bintang %>'].classList.add('active')
+</script>
+
 
