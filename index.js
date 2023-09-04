@@ -1,9 +1,8 @@
 const express = require("express");
 const app = express();
 var methodOverride = require("method-override");
-
 var session = require("express-session");
-
+require("dotenv").config();
 const bcrypt = require("bcrypt");
 
 const upload = require("./src/middlewares/uploadFiles");
@@ -14,7 +13,7 @@ const { Sequelize, QueryTypes, ARRAY } = require("sequelize");
 const sequelize = new Sequelize(config.development);
 
 const path = require("path");
-const port = 5000;
+const port = process.env.PORT || 5000;
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
@@ -69,7 +68,7 @@ app.get("/register", register);
 app.post("/register", addRegister);
 
 app.listen(port, () => {
-  console.log("Berjalan Di Port http://localhost:5000");
+  console.log(`Berjalan Di Port http://localhost:${port}`);
 });
 
 const availableTechnologies = [
