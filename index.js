@@ -91,7 +91,7 @@ fetch("https://api.npoint.io/11be16bc5f763e5ba191")
     dataTesti.push(...testimonials);
   })
   .catch((error) => {
-    console.error("Error fetching testimonials:", error);
+    console.log("Error fetching testimonials:", error);
   });
 
 function calculateAndFormatProjectDuration(project) {
@@ -147,8 +147,8 @@ async function home(req, res) {
       dataProject: dataModif,
       availableTechnologies,
     });
-  } catch (error) {
-    console.log(error);
+  } catch (err) {
+    console.log(err);
   }
 }
 
@@ -177,8 +177,8 @@ async function showProject(req, res) {
       dataProject: dataProjectWithDuration,
       availableTechnologies,
     });
-  } catch (error) {
-    console.log(error);
+  } catch (err) {
+    console.log(err);
   }
 }
 
@@ -205,7 +205,6 @@ async function postProject(req, res) {
       "/images/" + req.file.filename
     }', NOW(), NOW());`);
 
-    console.log("data baru");
     res.redirect("/");
   } catch (err) {
     console.log(err);
@@ -299,8 +298,8 @@ function postContact(req, res) {
     const mailtoLink = `mailto:${name}?subject=${subject}&body=Hello nama saya ${name}, ${subject}, ${message}, hubungi saya email: ${email}, telp: ${phone}`;
 
     res.redirect(mailtoLink);
-  } catch (error) {
-    console.log(error);
+  } catch (err) {
+    console.log(err);
   }
 }
 

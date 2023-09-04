@@ -2,9 +2,9 @@
 
   <%- include('partials/navbar.ejs') %>
 
-  <div class="xl:max-w-[1200px] max-w-[90%]  mx-auto mb-[200px]">
+  <div class="xl:max-w-[1200px] max-w-[90%]  mx-auto mb-[200px] relative">
 
-    <div class="success-login hidden fixed top-[100px] right-5">
+    <div class="success-login xl:max-w-[1200px] max-w-[90%] hidden  fixed top-6 right-6">
       <div class="px-5 py-2 bg-green-500 font-medium text-white rounded-3xl flex items-center gap-2">
         <img src="/svg/done.svg" alt="" width="25"> <%= !succsessLogin ? "" : succsessLogin %>
       </div>
@@ -201,6 +201,10 @@ function Login(props) {
   setInterval(() => {
     sessionStorage.clear()
   }, 2000)
+}
+
+function detailProject(id) {
+  window.location.href = `/projects/${id}`;
 }
 
 function showDeleteConfirmation(projectId) {
